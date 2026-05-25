@@ -1,0 +1,31 @@
+version: "3"
+
+vars:
+  DC_DIR: deploy
+
+tasks:
+  start:
+    desc: Run Open Design
+    dir: "{{.DC_DIR}}"
+    cmds:
+      - docker compose up -d
+
+  stop:
+    desc: Stop Open Design
+    dir: "{{.DC_DIR}}"
+    cmds:
+      - docker compose down
+
+  restart:
+    desc: Restart Open Design
+    cmds:
+      - task: stop
+      - task: sleep
+      - task: start
+
+  sleep:
+    desc: Pause briefly between tasks
+    vars:
+      DURATION: "{{default 5 .DURATION}}"
+    cmds:
+      - sleep {{.DURATION}}
